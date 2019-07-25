@@ -1,11 +1,12 @@
 package application;
 
-import Tabuleiro.TabuleiroXadrez;
+import xadrez.PartidaDeXadrez;
 
 public class Program {
 
 	public static void main(String[] args) {
-TabuleiroXadrez tabuleiro = new TabuleiroXadrez(8, 8);
+PartidaDeXadrez partida = new PartidaDeXadrez();
+UI.ImprimeTabuleiro(partida.getPecas());
 	}
 
 }
