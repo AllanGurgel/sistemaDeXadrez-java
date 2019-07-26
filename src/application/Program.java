@@ -18,14 +18,14 @@ public class Program {
 				UI.LimparTela();
 				UI.ImprimeTabuleiro(partida.getPecas());
 				System.out.println();
-				System.out.print("Origem : ");
+				System.out.print("Origem: ");
 				PosicaoXadrez origem = UI.lerPosicao(sc);
 				boolean [][]possiveisMovimentos= partida.possiveisMovimentos(origem);
 				UI.LimparTela();
 			    UI.ImprimeTabuleiro(partida.getPecas(),possiveisMovimentos);
 				
 				System.out.println();
-				System.out.println("Destino ");
+				System.out.println("Destino: ");
 				PosicaoXadrez alvo = UI.lerPosicao(sc);
 				
 				PecaDeXadrez pecaCapturada = partida.realizarMovimento(origem, alvo); 
