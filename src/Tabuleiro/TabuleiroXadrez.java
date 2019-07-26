@@ -37,6 +37,18 @@ public Integer getColunas() {
 	 pecas[posicao.getLinha()][posicao.getColuna()]=peca;
 	 peca.posicao=posicao;
  }
+ public Peca removePeca(Posicao posicao) {
+	 if(!posicaoExistente(posicao)) {
+		 throw new ExcecaoTabuleiro("Posição inexistente");
+	 }
+	 if (peca(posicao)==null) {
+		 return null;
+	 }
+	 Peca aux = peca(posicao);
+	 aux.posicao=null;
+	 pecas[posicao.getLinha()][posicao.getColuna()]=null;
+	 return aux;
+ }
  private boolean posicaoExistente(int linha, int coluna) {
 	 return linha >=0 && linha< linhas && coluna>=0&& coluna<colunas;
  }
