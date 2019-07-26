@@ -1,7 +1,10 @@
 package application;
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import xadrez.Cor;
 import xadrez.PartidaDeXadrez;
@@ -46,8 +49,10 @@ public class UI {
 			throw new InputMismatchException("Erro lendo posição. Valores válidos de a1 à h8");
 		}
 	}
-	public static void ImprimePartida(PartidaDeXadrez partidaXadrez) {
+	public static void ImprimePartida(PartidaDeXadrez partidaXadrez, List<PecaDeXadrez> capturadas) {
 	ImprimeTabuleiro(partidaXadrez.getPecas());
+	System.out.println();
+	imprimePecasCapturadas(capturadas);
 	System.out.println();
 	System.out.println("turno: "+partidaXadrez.getTurno());
 	System.out.println("Esperando jogador : "+partidaXadrez.getJogadorAtual());
@@ -97,5 +102,20 @@ public class UI {
             }
         }
         System.out.print(" ");
+	}
+	private static void imprimePecasCapturadas(List<PecaDeXadrez>capturadas) {
+		List<PecaDeXadrez>branca = capturadas.stream().filter(x->x.getCor()==Cor.BRANCA).collect(Collectors.toList());
+		List<PecaDeXadrez>preta = capturadas.stream().filter(x->x.getCor()==Cor.PRETA).collect(Collectors.toList());
+		System.out.println("Peças capturadas: ");
+		System.out.println("Brancas: ");
+		System.out.print(ANSI_WHITE);
+		System.out.println(Arrays.toString(branca.toArray()));
+		System.out.print(ANSI_RESET);
+		System.out.println("Pretas: ");
+		System.out.print(ANSI_BLUE);
+		System.out.println(Arrays.toString(preta.toArray()));
+		System.out.print(ANSI_RESET);
+
+
 	}
 }
