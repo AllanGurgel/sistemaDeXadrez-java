@@ -22,7 +22,7 @@ protected Posicao toPosicao() {
 	return new Posicao(8-linha, coluna -'a');
 }
 protected static PosicaoXadrez paraPosicao(Posicao posicao) {
-	return new PosicaoXadrez((char)('a'-posicao.getColuna()),8-posicao.getLinha());
+	return new PosicaoXadrez((char)('a'+posicao.getColuna()),8-posicao.getLinha());
 }
 @Override
 public String toString() {
