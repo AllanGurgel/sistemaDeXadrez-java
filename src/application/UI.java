@@ -32,33 +32,41 @@ public class UI {
 	public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+
 //https://stackoverflow.com/questions/2979383/java-clear-the-console
 	public static void LimparTela() {
 		System.out.print("\033[H\033[2J");
 		System.out.flush();
 	}
-	
+
 	public static PosicaoXadrez lerPosicao(Scanner sc) {
 		try {
-		String s = sc.nextLine();
-		char coluna = s.charAt(0);
-		int linha = Integer.parseInt(s.substring(1));
-		return new PosicaoXadrez(coluna, linha);
-	}
-		catch(RuntimeException e) {
+			String s = sc.nextLine();
+			char coluna = s.charAt(0);
+			int linha = Integer.parseInt(s.substring(1));
+			return new PosicaoXadrez(coluna, linha);
+		} catch (RuntimeException e) {
 			throw new InputMismatchException("Erro lendo posição. Valores válidos de a1 à h8");
 		}
 	}
+
 	public static void ImprimePartida(PartidaDeXadrez partidaXadrez, List<PecaDeXadrez> capturadas) {
-	ImprimeTabuleiro(partidaXadrez.getPecas());
-	System.out.println();
-	imprimePecasCapturadas(capturadas);
-	System.out.println();
-	System.out.println("turno: "+partidaXadrez.getTurno());
-	System.out.println("Esperando jogador : "+partidaXadrez.getJogadorAtual());
-	if(partidaXadrez.getCheck()) {
-		System.out.println("Check ! ");
-	}
+		ImprimeTabuleiro(partidaXadrez.getPecas());
+		System.out.println();
+		imprimePecasCapturadas(capturadas);
+		System.out.println();
+		System.out.println("turno: " + partidaXadrez.getTurno());
+		if (!partidaXadrez.getCheckMate()) {
+
+			System.out.println("Esperando jogador : " + partidaXadrez.getJogadorAtual());
+			if (partidaXadrez.getCheck()) {
+				System.out.println("Check ! ");
+			}
+		} else {
+			System.out.println("CheckMate !");
+			System.out.println("Vencedor : " + partidaXadrez.getJogadorAtual());
+		}
+
 	}
 
 	public static void ImprimeTabuleiro(PecaDeXadrez[][] pecas) {
@@ -71,6 +79,7 @@ public class UI {
 		}
 		System.out.println("  a b c d e f g h");
 	}
+
 	public static void ImprimeTabuleiro(PecaDeXadrez[][] pecas, boolean[][] possiveisMovimentos) {
 		for (int i = 0; i < pecas.length; i++) {
 			System.out.print((8 - i) + " ");
@@ -81,34 +90,33 @@ public class UI {
 		}
 		System.out.println("  a b c d e f g h");
 	}
-	/*private static void imprimePeca(PecaDeXadrez peca) {
-		if (peca == null) {
-			System.out.print("-");
-		} else {
-			System.out.print(peca);
-		}
-		System.out.print(" ");
-	}*/
+
+	/*
+	 * private static void imprimePeca(PecaDeXadrez peca) { if (peca == null) {
+	 * System.out.print("-"); } else { System.out.print(peca); }
+	 * System.out.print(" "); }
+	 */
 	private static void imprimePeca(PecaDeXadrez peca, boolean background) {
-		if(background) {
+		if (background) {
 			System.out.print(ANSI_GREEN_BACKGROUND);
 		}
-    	if (peca == null) {
-            System.out.print("-"+ ANSI_RESET);
-        }
-        else {
-            if (peca.getCor() == Cor.BRANCA) {
-                System.out.print(ANSI_WHITE + peca + ANSI_RESET);
-            }
-            else {
-                System.out.print(ANSI_BLUE + peca + ANSI_RESET);
-            }
-        }
-        System.out.print(" ");
+		if (peca == null) {
+			System.out.print("-" + ANSI_RESET);
+		} else {
+			if (peca.getCor() == Cor.BRANCA) {
+				System.out.print(ANSI_WHITE + peca + ANSI_RESET);
+			} else {
+				System.out.print(ANSI_BLUE + peca + ANSI_RESET);
+			}
+		}
+		System.out.print(" ");
 	}
-	private static void imprimePecasCapturadas(List<PecaDeXadrez>capturadas) {
-		List<PecaDeXadrez>branca = capturadas.stream().filter(x->x.getCor()==Cor.BRANCA).collect(Collectors.toList());
-		List<PecaDeXadrez>preta = capturadas.stream().filter(x->x.getCor()==Cor.PRETA).collect(Collectors.toList());
+
+	private static void imprimePecasCapturadas(List<PecaDeXadrez> capturadas) {
+		List<PecaDeXadrez> branca = capturadas.stream().filter(x -> x.getCor() == Cor.BRANCA)
+				.collect(Collectors.toList());
+		List<PecaDeXadrez> preta = capturadas.stream().filter(x -> x.getCor() == Cor.PRETA)
+				.collect(Collectors.toList());
 		System.out.println("Peças capturadas: ");
 		System.out.println("Brancas: ");
 		System.out.print(ANSI_WHITE);
@@ -118,7 +126,6 @@ public class UI {
 		System.out.print(ANSI_BLUE);
 		System.out.println(Arrays.toString(preta.toArray()));
 		System.out.print(ANSI_RESET);
-
 
 	}
 }
